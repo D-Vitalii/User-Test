@@ -25,8 +25,13 @@ jobs:
       run: npm run build
 
     - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@3.7.1
-      with:
-        ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        BRANCH: gh-pages
-        FOLDER: dist
+      run: |
+        git config --global user.email "vitalikdyadychko@gmail.com"
+        git config --global user.name "D-Vitalii"
+        git fetch
+        git worktree add -f github-pages gh-pages
+        cp -R dist/* github-pages/
+        cd github-pages
+        git add --all
+        git commit -m "Deploying to GitHub Pages"
+        git push origin gh-pages
